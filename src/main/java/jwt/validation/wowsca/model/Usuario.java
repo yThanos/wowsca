@@ -13,9 +13,6 @@ public class Usuario {
     private String password;//senha
     private String token;//n tem banco
     private String permissao;// ADMIN/USER banco
-    private String nome;
-    private String cpf;
-    private boolean ativo;
     
     public Usuario(String username, String password){
         this.username = username;

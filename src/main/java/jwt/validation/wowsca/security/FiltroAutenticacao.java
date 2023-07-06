@@ -22,10 +22,12 @@ public class FiltroAutenticacao extends OncePerRequestFilter{
             try{
                 String token = request.getHeader("Authorization");
                 if(token == null || !token.startsWith("Bearer ")){
+                    System.out.println("Token nulo ou inválido");
                     response.sendError(401);
                 }
                 String username = new JWTUtil().getUsernameToken(token);
                 if(username == null && new JWTUtil().isTokenExpirado(token)){
+                    System.out.println("Token expirado");
                     response.sendError(401);
                 }
                 if(SecurityContextHolder.getContext().getAuthentication() == null){

@@ -39,8 +39,8 @@ public class WebSecurityConfig {
         return http.authorizeHttpRequests(authorizeHttpRequests -> {
             authorizeHttpRequests.requestMatchers("/login").permitAll();
             authorizeHttpRequests.requestMatchers("/criarConta").permitAll();
-            authorizeHttpRequests.requestMatchers("/admin/**").hasRole("ADMIN");
-            authorizeHttpRequests.requestMatchers("/user/**").hasRole("USER");
+            authorizeHttpRequests.requestMatchers("/admin/**").hasAuthority("ADMIN");
+            authorizeHttpRequests.requestMatchers("/user/**").hasAuthority("USER");
             authorizeHttpRequests.anyRequest().authenticated();
         })
         .csrf(AbstractHttpConfigurer::disable)

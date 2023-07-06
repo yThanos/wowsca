@@ -24,24 +24,24 @@ public class LoginController {
     private AuthenticationManager authenticationManager;
 
     @PostMapping("/login")
-    public ResponseEntity<String> logar(@RequestBody Usuario usuario){
-        final Authentication authentication = this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(usuario.getNome(), usuario.getPassword()));
+    public ResponseEntity<Usuario> logar(@RequestBody Usuario usuario){
+        final Authentication authentication = this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(usuario.getUsername(), usuario.getPassword()));
         if(authentication.isAuthenticated()){
             SecurityContextHolder.getContext().setAuthentication(authentication);
             usuario.setPermissao(authentication.getAuthorities().toString().replace("[", "").replace("]", ""));
-            String token = new JWTUtil().geraToken(usuario);
-            return new ResponseEntity<>(token, HttpStatusCode.valueOf(200));
+            usuario.setToken(new JWTUtil().geraToken(usuario));
+            return new ResponseEntity<>(usuario, HttpStatusCode.valueOf(200));
         } else {
-            return new ResponseEntity<>("Usuario ou senha invalidos!", HttpStatusCode.valueOf(401));
+            return new ResponseEntity<>(HttpStatusCode.valueOf(401));
         }
     }
 
     @GetMapping("/admin")
-    public ResponseEntity<String> teste(){
+    public ResponseEntity<String> admin(){
         return new ResponseEntity<>("parabens voce é um ADMIN!", HttpStatusCode.valueOf(200));
     }
     @GetMapping("/user")
     public ResponseEntity<String> user(){
-        return new ResponseEntity<>("Parabens voce é um USER!", HttpStatusCode.valueOf(2000));
+        return new ResponseEntity<>("Parabens voce é um USER!", HttpStatusCode.valueOf(200));
     }
 }
